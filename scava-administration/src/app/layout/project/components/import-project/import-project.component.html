@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <h4>Import project</h4>
+            <hr>
+            <div>
+                <span>If your project is hosted on Eclipse, SourceForge, or GitHub, you can simply paste the URL below and we'll
+                    add it.</span>
+                <br/>
+                <span>E.g.
+                    <code>https://projects.eclipse.org/projects/modeling.epsilon</code> or
+                    <code>https://github.com/jrwilliams/gif-hook</code>
+                </span>
+            </div>
+            <br/>
+            <div>
+                <form #importProjectForm="ngForm" name="importProjectForm" novalidate (ngSubmit)="save(importProjectForm.value)">
+                    <div class="form-group">
+                        <label for="projectName">URL</label>
+                        <input type="text" class="form-control" id="projectName" name="projectName" [(ngModel)]="project" [ngModelOptions]="{standalone: true}"
+                            aria-describedby="url" placeholder="URL">
+                    </div>
+                </form>
+            </div>
+            <br/>
+            <div class="row">
+                <button type="button" class="btn btn-primary">Import project</button>
+            </div>
+        </div>
+    </div>
+</div>

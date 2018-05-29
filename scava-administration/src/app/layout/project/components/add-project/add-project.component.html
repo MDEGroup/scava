@@ -1,0 +1,227 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <h4>Register project</h4>
+            <hr>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <div>
+                <form #addProjectForm="ngForm" name="addProjectForm" novalidate (ngSubmit)="save(addProjectForm.value)">
+                    <div class="form-group">
+                        <label for="projectName">Project Name</label>
+                        <input type="text" class="form-control" id="projectName" name="projectName" [(ngModel)]="project" [ngModelOptions]="{standalone: true}"
+                            aria-describedby="projectName" placeholder="E.g. SCAVA">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" [(ngModel)]="project" [ngModelOptions]="{standalone: true}"
+                            rows="4" placeholder="E.g."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="homePage">HomePage</label>
+                        <input type="text" class="form-control" id="homePage" name="homePage" [(ngModel)]="project" [ngModelOptions]="{standalone: true}"
+                            ngModel placeholder="E.g. www.scava.org">
+                    </div>
+                    <div class="form-group">
+                        <label for="informationSources">Information Sources</label>
+                        <br/>
+                        <small>Click the button below to add new information sources to the project.</small>
+                        <br/>
+                        <br/>
+                        <small>Version Control Systems</small>
+                        <ul class="pagination">
+                            <li>
+                                <button type="button" class="btn btn-light" (click)="addInformationSource('git')">
+                                    <span>Git</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="btn btn-light" (click)="addInformationSource('svn')">
+                                    <span>SVN</span>
+                                </button>
+                            </li>
+                        </ul>
+                        <small>Issue Tracking Systems</small>
+                        <ul class="pagination">
+                            <li>
+                                <button type="button" class="btn btn-light" (click)="addInformationSource('bugzilla')">
+                                    <span>Bugzilla</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="btn btn-light" (click)="addInformationSource('sourceforge')">
+                                    <span>SourceForge</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="btn btn-light" (click)="addInformationSource('redmine')">
+                                    <span>Redmine</span>
+                                </button>
+                            </li>
+                        </ul>
+                        <small>Communication Channels</small>
+                        <ul class="pagination">
+                            <li>
+                                <button type="button" class="btn btn-light" (click)="addInformationSource('nntp')">
+                                    <span>NNTP</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div [formGroup]="form" class="col-sm-6 col-md-offset-6 col-md-6 col-md-offset-6 col-lg-6 col-lg-offset-6">
+            <div formArrayName="git">
+                <div *ngFor="let elem of form.get('git')['controls'];let i=index;">
+                    <div [formGroupName]="i">
+                        <div class="card">
+                            <div class="card-header">
+                                <label>Git Repository</label>
+                                <span class="pull-right clickable close-icon" data-effect="fadeOut" (click)="removeInformationSource('git')">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="homePage">URL</label>
+                                    <input type="text" class="form-control" id="url" name="url" formControlName="url">
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+
+            <div formArrayName="svn">
+                <div *ngFor="let elem of form.get('svn')['controls'];let i=index;">
+                    <div [formGroupName]="i">
+                        <div class="card">
+                            <div class="card-header">
+                                <label>Subversion Repository</label>
+                                <span class="pull-right clickable close-icon" data-effect="fadeOut" (click)="removeInformationSource('svn')">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="homePage">URL</label>
+                                    <input type="text" class="form-control" id="url" name="url" formControlName="url">
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+
+            <div formArrayName="bugzilla">
+                <div *ngFor="let elem of form.get('bugzilla')['controls'];let i=index;">
+                    <div [formGroupName]="i">
+                        <div class="card">
+                            <div class="card-header">
+                                <label>Bugzilla</label>
+                                <span class="pull-right clickable close-icon" data-effect="fadeOut" (click)="removeInformationSource('bugzilla')">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="homePage">URL</label>
+                                    <input type="text" class="form-control" id="url" name="url">
+                                </div>
+                                <div class="form-group">
+                                    <label for="product">Product</label>
+                                    <input type="text" class="form-control" id="product" name="product">
+                                </div>
+                                <div class="form-group">
+                                    <label for="component">Component</label>
+                                    <input type="text" class="form-control" id="component" name="component">
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+
+            <div formArrayName="sourceforge">
+                <div *ngFor="let elem of form.get('sourceforge')['controls'];let i=index;">
+                    <div [formGroupName]="i">
+                        <div class="card">
+                            <div class="card-header">
+                                <label>SourceForge Issues</label>
+                                <span class="pull-right clickable close-icon" data-effect="fadeOut" (click)="removeInformationSource('sourceforge')">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="url">URL</label>
+                                    <input type="text" class="form-control" id="url" name="url">
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+
+            <div formArrayName="redmine">
+                <div *ngFor="let elem of form.get('redmine')['controls'];let i=index;">
+                    <div [formGroupName]="i">
+                        <div class="card">
+                            <div class="card-header">
+                                <label>Redmine</label>
+                                <span class="pull-right clickable close-icon" data-effect="fadeOut" (click)="removeInformationSource('redmine')">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="url">URL</label>
+                                    <input type="text" class="form-control" id="url" name="url">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="project">Project</label>
+                                    <input type="text" class="form-control" id="project" name="project">
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+
+            <div formArrayName="nntp">
+                <div *ngFor="let elem of form.get('nntp')['controls'];let i=index;">
+                    <div [formGroupName]="i">
+                        <div class="card">
+                            <div class="card-header">
+                                <label>Communication Channels</label>
+                                <span class="pull-right clickable close-icon" data-effect="fadeOut" (click)="removeInformationSource('nntp')">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="url">URL</label>
+                                    <input type="text" class="form-control" id="url" name="url">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <button type="button" class="block">Register</button>
+    </div>
+</div>

@@ -18,6 +18,7 @@ var map = {
 	],
 	"./bs-component/bs-component.module": [
 		"./src/app/layout/bs-component/bs-component.module.ts",
+		"bs-component-bs-component-module~dashboard-dashboard-module~layout-layout-module~login-login-module~~8f5899fa",
 		"bs-component-bs-component-module~dashboard-dashboard-module~layout-layout-module",
 		"common",
 		"bs-component-bs-component-module"
@@ -34,6 +35,7 @@ var map = {
 	],
 	"./dashboard/dashboard.module": [
 		"./src/app/layout/dashboard/dashboard.module.ts",
+		"bs-component-bs-component-module~dashboard-dashboard-module~layout-layout-module~login-login-module~~8f5899fa",
 		"bs-component-bs-component-module~dashboard-dashboard-module~layout-layout-module",
 		"common",
 		"dashboard-dashboard-module"
@@ -48,20 +50,32 @@ var map = {
 		"common",
 		"grid-grid-module"
 	],
+	"./home/home.module": [
+		"./src/app/layout/home/home.module.ts",
+		"home-home-module"
+	],
 	"./layout/layout.module": [
 		"./src/app/layout/layout.module.ts",
+		"bs-component-bs-component-module~dashboard-dashboard-module~layout-layout-module~login-login-module~~8f5899fa",
 		"bs-component-bs-component-module~dashboard-dashboard-module~layout-layout-module",
 		"common",
 		"layout-layout-module"
 	],
 	"./login/login.module": [
 		"./src/app/login/login.module.ts",
+		"bs-component-bs-component-module~dashboard-dashboard-module~layout-layout-module~login-login-module~~8f5899fa",
 		"common",
 		"login-login-module"
 	],
 	"./not-found/not-found.module": [
 		"./src/app/not-found/not-found.module.ts",
 		"not-found-not-found-module"
+	],
+	"./project/project.module": [
+		"./src/app/layout/project/project.module.ts",
+		"bs-component-bs-component-module~dashboard-dashboard-module~layout-layout-module~login-login-module~~8f5899fa",
+		"common",
+		"project-project-module"
 	],
 	"./server-error/server-error.module": [
 		"./src/app/server-error/server-error.module.ts",

@@ -51,7 +51,7 @@ var LoginRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-page\" [@routerTransition]>\r\n    <div class=\"row justify-content-md-center\">\r\n        <div class=\"col-md-8\">\r\n            <img src=\"assets/images/OSSMETER_large.jpg\" width=\"600px\" />\r\n            <h2>OSSMETER is an open-source platform for automatically analysing the source code, bug tracking systems, and communication channels of open source software projects.</h2>\r\n        </div>\r\n    </div>\r\n    <div class=\"row justify-content-md-center\">\r\n        <div class=\"col-md-4\">\r\n            <form role=\"form\">\r\n                <div class=\"form-content\">\r\n                    <div class=\"form-group\">\r\n                        <input type=\"text\" ng-model=\"name\" class=\"form-control input-underline input-lg\" id=\"\" placeholder=\"Email\">\r\n                    </div>\r\n                    <div class=\"form-group\">\r\n                        <input type=\"password\" class=\"form-control input-underline input-lg\" id=\"\" placeholder=\"Password\">\r\n                    </div>\r\n                </div>\r\n                <a class=\"btn rounded-btn\" [routerLink]=\"['/dashboard']\" (click)=\"onLoggedin()\"> Log in </a>\r\n                &nbsp;\r\n                <a class=\"btn rounded-btn\" [routerLink]=\"['/signup']\">Register</a>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"login-page\">\r\n        <div class=\"row justify-content-md-center\">\r\n            <div class=\"col-md-8\">\r\n                <img src=\"assets/images/SCAVA_logo_tagline_side.jpg\" width=\"600px\" />\r\n                <h2>SCAVA is an open-source platform for automatically analysing the source code, bug tracking systems, and communication\r\n                    channels of open source software projects.</h2>\r\n            </div>\r\n        </div>\r\n        <div class=\"row justify-content-md-center\">\r\n            <div class=\"alert alert-danger\" *ngIf=\"mode==1\">\r\n                <strong>Bad credentials!</strong> Invalid username or password.\r\n            </div>\r\n        </div>\r\n        <div class=\"row justify-content-md-center\">\r\n            <div class=\"col-md-4\">\r\n                <form #f=\"ngForm\" (ngSubmit)=\"onLoggedin(f.value)\">\r\n                    <div class=\"form-content\">\r\n                        <div class=\"form-group\">\r\n                            <input type=\"text\" name=\"username\" ngModel=\"\" class=\"form-control input-underline input-lg\" placeholder=\"Username\" />\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"password\" name=\"password\" ngModel=\"\" class=\"form-control input-underline input-lg\" placeholder=\"Password\" />\r\n                        </div>\r\n                    </div>\r\n                    <button type=\"submit\" class=\"btn rounded-btn\" [disabled]=\"!f.valid\">Login</button>\r\n                    &nbsp;\r\n                    <a class=\"btn rounded-btn\" [routerLink]=\"['/signup']\">Register</a>\r\n                </form>\r\n            </div>\r\n        </div>\r\n    </div>\r\n"
 
 /***/ }),
 
@@ -79,6 +79,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _router_animations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../router.animations */ "./src/app/router.animations.ts");
+/* harmony import */ var _login_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./login.service */ "./src/app/login/login.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -91,13 +92,27 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(router) {
+    function LoginComponent(router, loginService) {
         this.router = router;
+        this.loginService = loginService;
+        this.mode = 0;
     }
-    LoginComponent.prototype.ngOnInit = function () { };
-    LoginComponent.prototype.onLoggedin = function () {
-        localStorage.setItem('isLoggedin', 'true');
+    LoginComponent.prototype.ngOnInit = function () {
+    };
+    LoginComponent.prototype.onLoggedin = function (data) {
+        var _this = this;
+        localStorage.clear();
+        this.loginService.login(data).subscribe(function (resp) {
+            var jwtToken = resp.headers.get('Authorization');
+            _this.loginService.saveToken(jwtToken);
+            console.log(jwtToken);
+            localStorage.setItem('isLoggedin', 'true');
+            _this.router.navigateByUrl('/home');
+        }, function (error) {
+            _this.mode = 1;
+        });
     };
     LoginComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -106,7 +121,8 @@ var LoginComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./login.component.scss */ "./src/app/login/login.component.scss")],
             animations: [Object(_router_animations__WEBPACK_IMPORTED_MODULE_2__["routerTransition"])()]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _login_service__WEBPACK_IMPORTED_MODULE_3__["LoginService"]])
     ], LoginComponent);
     return LoginComponent;
 }());
@@ -129,6 +145,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _login_routing_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./login-routing.module */ "./src/app/login/login-routing.module.ts");
 /* harmony import */ var _login_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./login.component */ "./src/app/login/login.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -139,16 +156,65 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var LoginModule = /** @class */ (function () {
     function LoginModule() {
     }
     LoginModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
-            imports: [_angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"], _login_routing_module__WEBPACK_IMPORTED_MODULE_2__["LoginRoutingModule"]],
+            imports: [_angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"], _login_routing_module__WEBPACK_IMPORTED_MODULE_2__["LoginRoutingModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"]],
             declarations: [_login_component__WEBPACK_IMPORTED_MODULE_3__["LoginComponent"]]
         })
     ], LoginModule);
     return LoginModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/login/login.service.ts":
+/*!****************************************!*\
+  !*** ./src/app/login/login.service.ts ***!
+  \****************************************/
+/*! exports provided: LoginService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginService", function() { return LoginService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var LoginService = /** @class */ (function () {
+    function LoginService(httpClient) {
+        this.httpClient = httpClient;
+        this.resourceUrl = 'http://localhost:8086/api/authentication';
+    }
+    LoginService.prototype.login = function (data) {
+        console.log(data);
+        return this.httpClient.post(this.resourceUrl, data, { observe: 'response' });
+    };
+    LoginService.prototype.saveToken = function (token) {
+        localStorage.setItem('jwtToken', token);
+    };
+    LoginService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], LoginService);
+    return LoginService;
 }());
 
 
